@@ -1,11 +1,11 @@
 import argparse
 
 
-def step(args):
+def init(args):
     pass
 
 
-def init(args):
+def step(args):
     pass
 
 

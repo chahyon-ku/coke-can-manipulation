@@ -1,12 +1,7 @@
 import argparse
-
 import pyrealsense2 as rs
 import cv2
 import numpy as np
-
-
-def step(args):
-    pass
 
 
 def init(args):
@@ -35,6 +30,10 @@ def init(args):
     cv2.imshow('color', color_image)
     cv2.imshow('depth', depth_image)
     cv2.waitKey()
+
+
+def step(args):
+    pass
 
 
 def add_arguments(parser):
