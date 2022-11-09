@@ -19,11 +19,6 @@ p.loadURDF("./environment/room.urdf", startPos, startOrientation, useFixedBase =
 startPos = [4,0,0]
 startOrientation = p.getQuaternionFromEuler([1.5708,0,0])
 p.loadURDF("./environment/wall.urdf", startPos, startOrientation, useFixedBase = True)
-# load can
-startPos = [0.5,0.47,0.660]
-startOrientation = p.getQuaternionFromEuler([0,0,0])
-p.loadURDF("environment/can.urdf",startPos, startOrientation)
-
 
 p.resetDebugVisualizerCamera(cameraDistance = 1.5, cameraYaw = 80.0, cameraPitch = -10.0, cameraTargetPosition = [0,0.6,1])
 
@@ -41,8 +36,12 @@ p.loadURDF("environment/dual_arm_station.urdf",startPos, startOrientation, useFi
 startPos = [0.5,0.47,0.560]
 startOrientation = p.getQuaternionFromEuler([1.5708,0,1.5708])
 p.loadURDF("environment/table.urdf",startPos, startOrientation, useFixedBase = True)
+# load can
+startPos = [0.5,0.47,0.660]
+startOrientation = p.getQuaternionFromEuler([0,0,0])
+p.loadURDF("environment/can.urdf",startPos, startOrientation)
 
-pu.step_real(30)
+pu.step_real(60)
 
 # camera setup
 # viewMatrix = p.computeViewMatrix(
