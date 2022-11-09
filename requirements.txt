@@ -2,4 +2,4 @@ torch
 pybullet
 pyrealsense2
 numpy
-cv2
+opencv
