@@ -1,23 +1,23 @@
 import argparse
 
 
-def step(args):
-    pass
-
-
-def init(args):
-    pass
-
-
 def add_arguments(parser):
-    pass
+    parser.add_argument('--model_path', type=str, default='')
+    parser.add_argument('--model_type', type=str, default='')
 
 
-if __name__ == '__main__':
+def run(args, state):
+    while True:
+        pass
+
+
+def main():
     parser = argparse.ArgumentParser()
     add_arguments(parser)
     args = parser.parse_args()
 
-    init(args)
-    while True:
-        step(args)
+    run(args, None)
+
+
+if __name__ == '__main__':
+    main()

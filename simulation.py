@@ -1,16 +1,5 @@
 import argparse
-
 import pybullet as pb
-
-
-def step(args):
-    pass
-
-
-def init(args):
-    physics = pb.connect(pb.GUI, options=f"--width={args.width} --height={args.height}")
-    pb.setGravity(0, 0, -9.81)
-    pb.setRealTimeSimulation(True)
 
 
 def add_arguments(parser):
@@ -18,11 +7,19 @@ def add_arguments(parser):
     parser.add_argument('--simulation_height', type=int, default=1280)
 
 
-if __name__ == '__main__':
+def run(args, state):
+    physics_client = pb.connect(pb.GUI, options=f"--width={args.simulation_width}--height={args.simulation_height}")
+    while True:
+        pass
+
+
+def main():
     parser = argparse.ArgumentParser()
     add_arguments(parser)
     args = parser.parse_args()
 
-    init(args)
-    while True:
-        step(args)
+    run(args, None)
+
+
+if __name__ == '__main__':
+    main()
