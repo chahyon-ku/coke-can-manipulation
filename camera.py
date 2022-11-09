@@ -1,24 +1,31 @@
 import argparse
-import pyrealsense2 as rs
+import pyrealsense2 as prs
 import cv2
 import numpy as np
 
 
-def init(args):
-    pipeline = rs.pipeline()
-    config = rs.config()
+def add_arguments(parser):
+    parser.add_argument('--camera_width', type=int, default=640)
+    parser.add_argument('--camera_height', type=int, default=480)
+    parser.add_argument('--camera_frame_rate', type=int, default=30)
 
-    pipeline_wrapper = rs.pipeline_wrapper(pipeline)
+
+def run(args, state):
+    pipeline = prs.pipeline()
+    config = prs.config()
+
+    pipeline_wrapper = prs.pipeline_wrapper(pipeline)
     pipeline_profile = config.resolve(pipeline_wrapper)
     device = pipeline_profile.get_device()
 
-    config.enable_stream(rs.stream.color, args.camera_width, args.camera_height, rs.format.rgb8, args.camera_frame_rate)
-    config.enable_stream(rs.stream.depth, args.camera_width, args.camera_height, rs.format.z16, args.camera_frame_rate)
+    config.enable_stream(prs.stream.color, args.camera_width, args.camera_height, prs.format.rgb8,
+                         args.camera_frame_rate)
+    config.enable_stream(prs.stream.depth, args.camera_width, args.camera_height, prs.format.z16,
+                         args.camera_frame_rate)
 
     profile = pipeline.start(config)
 
-    align = rs.align(rs.stream.color)
-    # while True:
+    align = prs.align(prs.stream.color)
     frames = pipeline.wait_for_frames()
     frames = align.process(frames)
 
@@ -31,22 +38,17 @@ def init(args):
     cv2.imshow('depth', depth_image)
     cv2.waitKey()
 
-
-def step(args):
-    pass
-
-
-def add_arguments(parser):
-    parser.add_argument('--camera_width', type=int, default=640)
-    parser.add_argument('--camera_height', type=int, default=480)
-    parser.add_argument('--camera_frame_rate', type=int, default=30)
+    while True:
+        pass
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser()
     add_arguments(parser)
     args = parser.parse_args()
 
-    init(args)
-    while True:
-        step(args)
+    run(args, None)
+
+
+if __name__ == '__main__':
+    main()
