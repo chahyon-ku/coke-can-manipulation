@@ -1,0 +1,1 @@
+python -u ./tools/train.py --dataset linemod --dataset_root ./datasets/linemod/Linemod_preprocessed --workers 1
