@@ -23,8 +23,8 @@ rule cuda_compile
 rule link
   command = "C$:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64/link.exe" $in /nologo $ldflags /out:$out
 
-build knn_pytorch.o: compile C$:\Users\chahy\Documents\2022_Fall\EE$ 5271$ Robot$ $ Vision\DenseFusion\lib\knn\src\knn_pytorch.cpp
-build knn_cuda_kernel.cuda.o: cuda_compile C$:\Users\chahy\Documents\2022_Fall\EE$ 5271$ Robot$ $ Vision\DenseFusion\lib\knn\src\knn_cuda_kernel.cu
+build knn_pytorch.o: compile C$:\Users\chahy\Documents\2022_Fall\EE$ 5271$ Robot$ $ Vision\ee5271-robot-vision\pose\dense_fusion\lib\knn\src\knn_pytorch.cpp
+build knn_cuda_kernel.cuda.o: cuda_compile C$:\Users\chahy\Documents\2022_Fall\EE$ 5271$ Robot$ $ Vision\ee5271-robot-vision\pose\dense_fusion\lib\knn\src\knn_cuda_kernel.cu
 
 
 
