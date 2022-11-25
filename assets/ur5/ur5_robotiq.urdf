@@ -432,6 +432,11 @@
         <color rgba="0.9 0.0 0.0 1"/>
       </material>
     </collision>
+    <!-- <contact>
+      <lateral_friction value="20"/>
+      <spinning_friction value="1.0"/>
+      <rolling_friction value="1.0"/>
+    </contact> -->
   </link>
   <link name="left_inner_knuckle">
     <!--<inertial>
@@ -540,6 +545,11 @@
         <color rgba="0.9 0.0 0.0 1"/>
       </material>
     </collision>
+    <!-- <contact>
+      <lateral_friction value="20"/>
+      <spinning_friction value="1.0"/>
+      <rolling_friction value="1.0"/>
+    </contact> -->
   </link>
   <link name="right_inner_knuckle">
     <!--<inertial>
@@ -658,4 +668,11 @@
     <origin rpy="1.57 0.0 0.0" xyz="0.0 0.0 0.0"/>
   </joint>
   <link name="graspit_link"/>
+  <!-- Tool tip offset from ee_link -->
+  <joint name="tool_tip_joint" type="fixed">
+    <parent link="ee_link"/>
+    <child link="tool_tip_link"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+  </joint>
+  <link name="tool_tip_link"/>
 </robot>

@@ -11,9 +11,11 @@ import argparse
 def add_arguments(parser):
     parser.add_argument('--generate_data', type=bool, default=False)
     parser.add_argument('--num_data', type=int, default=10)
+    parser.add_argument('--can_x', type=float, default=0.6)
+    parser.add_argument('--can_y', type=float, default=0.7)
 
 class environment():
-    def __init__():
+    def __init__(self):
         # physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080 --mp4=data.mp4 --mp4fps=40")
         physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080")
         pb.configureDebugVisualizer(pb.COV_ENABLE_GUI, 1, lightPosition = [0, 0, 5])
@@ -29,15 +31,24 @@ class environment():
         orn = pb.getQuaternionFromEuler([np.pi/2.0,0,-np.pi/2.0])
         pb.loadURDF("./environment/wall.urdf", pos, orn, useFixedBase = True)
 
-        pb.resetDebugVisualizerCamera(cameraDistance = 1.7, cameraYaw = 80.0, cameraPitch = -10.0, cameraTargetPosition = [0,0.6,1])
+        pb.resetDebugVisualizerCamera(cameraDistance = 1.0, cameraYaw = 80.0, cameraPitch = -50.0, cameraTargetPosition = [0.5,0.6,0.6])
 
         #load robots
         orn = pb.getQuaternionFromEuler([np.pi/2.0,-np.pi/2.0,np.pi/2.0])
-        robot_base_pose = [[0.025, 0.0, 1.194], orn]
-        robotR = UR5RobotiqPybulletController(base_pose = robot_base_pose, initial_arm_joint_values=[-np.pi/2.0,0,-np.pi/2.0,0,0,0])
-        robot_base_pose = [[0.025, 0.94, 1.194], orn]
-        robotL = UR5RobotiqPybulletController(base_pose = robot_base_pose, initial_arm_joint_values=[-np.pi/2.0,0,-np.pi/2.0,0,0,0])
-        ee_index = 8
+        robot_base_pose = [[0.025, 0.0, 1.42], orn]
+        self.robotR = UR5RobotiqPybulletController(base_pose = robot_base_pose, initial_arm_joint_values=[-np.pi/2.0, np.pi,-np.pi/2.0,0,0,0])
+        robot_base_pose = [[0.025, 0.94, 1.42], orn]
+        self.robotL = UR5RobotiqPybulletController(base_pose = robot_base_pose, 
+            initial_arm_joint_values=[0, -np.pi/2.0, -np.pi/2.0, -np.pi/2.0, -np.pi/2.0, -np.pi/2.0])
+
+        # Set friction coefficients for gripper fingers
+        for i in range(pb.getNumJoints(self.robotL.id)):
+            pb.changeDynamics(self.robotL.id,
+                             i,
+                             lateralFriction=1.0,
+                             spinningFriction=1.0,
+                             rollingFriction=0.0001,
+                             frictionAnchor=True)
 
         pos = [0.079,1.166-0.09,0.560]
         orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, np.pi/2.0])
@@ -117,29 +128,72 @@ class environment():
 
         f.close()
 
-    def grasp_can(x, y):
+    def grasp_can(self, x, y):
+
         # load can in position
         pos = [x, y, 0.610]
-        orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, 0])
-        canID = pb.loadURDF("environment/can.urdf", pos, orn)
+        # orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, 0])
+        # can_id = pb.loadURDF("environment/can.urdf", pos, orn)
+        orn = pb.getQuaternionFromEuler([0, 0, 0])
+        can_id = pb.loadURDF("environment/master_chef_can/master_chef_can.urdf", pos, orn)
+        # pb.changeDynamics(can_id,
+        #                   -1,
+        #                   lateralFriction=1,
+        #                   spinningFriction=0.5,
+        #                   rollingFriction=1.0)
         pbu.step_real(1)
 
         # move robotL above can
-        target_orn = p.getQuaternionFromEuler([PI,0.0,0.0])
-        jv = pu.inverse_kinematics(robotL.id, ee_index, position = [x, y, 0.8], orientation = target_orn)
-        robotL.control_arm_joints(jv[0:6])
-        pu.step_real(1)
+        # self.ee_index = 8
+        # jv = pbu.inverse_kinematics(self.robotL.id, self.ee_index, position = [x-0.14, y, 0.8], orientation = target_orn)
+        self.ee_index = pbu.joint_from_name(self.robotL.id, 'tool_tip_joint')
+        self.pour(100)
+
+        target_orn = pb.getQuaternionFromEuler([np.pi/2, 0, 0])
+        jv = pbu.inverse_kinematics(self.robotL.id, self.ee_index, position = [x-0.14, y, 0.8], orientation = target_orn)
+        self.robotL.control_arm_joints(jv[0:6])
+        pbu.step_real(1)
+        # move to can
+        self.robotL.cartesian_control('z', True, -0.18)
+        pbu.step_real(1)
+        # close gripper, lift up
+        self.robotL.close_gripper(realtime=True)
+        # attach object
+        self.robotL.attach_object(can_id)
+        self.robotL.cartesian_control('z', True, 0.1)
+        target_orn = pb.getQuaternionFromEuler([-np.pi/2.0, 0, 0])
+        jv = pbu.inverse_kinematics(self.robotL.id, self.ee_index, position = [x, y, 0.8], orientation = target_orn)
+        self.robotL.control_arm_joints(jv[0:6])
+        pbu.step_real(1)
+        self.robotL.detach()
+        self.robotL.open_gripper(realtime=True)
+        self.robotL.cartesian_control('z', True, 0.1)
+
+    def pour(self, n):
+        r = 0.005
+        for _ in range(n):
+            visualShapeId = pb.createVisualShape(shapeType=pb.GEOM_SPHERE,
+                                        rgbaColor=[0.5, 0.25, 0, 0.9],
+                                        radius=r)
+            collisionShapeId = pb.createCollisionShape(shapeType=pb.GEOM_SPHERE, radius=r)
+            pb.createMultiBody(baseMass=1,
+                            baseInertialFramePosition=[0, 0, 0],
+                            baseCollisionShapeIndex=collisionShapeId,
+                            baseVisualShapeIndex=visualShapeId,
+                            basePosition=[np.random.uniform(0.59, 0.61), 0.6, 1],
+                            useMaximalCoordinates=True)
+            pbu.step_real(0.01)
 
 def main():
     parser = argparse.ArgumentParser()
     add_arguments(parser)
     args = parser.parse_args()
 
-    load_env()
+    env = environment()
     if args.generate_data:
-        generate_data(args.num_data)
+        env.generate_data(args.num_data)
     else:
-        grasp_can(args.can_x, args.can_y)
+        env.grasp_can(args.can_x, args.can_y)
     pbu.step_real(1)
     pb.disconnect()
 
