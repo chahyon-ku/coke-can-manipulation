@@ -3,4 +3,4 @@
 data.zip
 *.mp4
 data/
-/pose/dense_fusion/datasets/linemod/Linemod_preprocessed/
+*.FCStd1
