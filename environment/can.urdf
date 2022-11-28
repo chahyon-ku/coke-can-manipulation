@@ -14,16 +14,16 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="cola_can.obj"/>
+        <mesh filename="can.obj" scale="0.02 0.02 0.02"/>
       </geometry>
        <material name="white">
-        <color rgba="1 1 1 1"/>
+        <color rgba="0.7 0.7 0.7 1"/>
       </material>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="cola_can.obj"/>
+        <mesh filename="can.obj" scale="0.02 0.02 0.02"/>
       </geometry>
     </collision>
   </link>

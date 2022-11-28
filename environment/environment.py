@@ -16,8 +16,8 @@ def add_arguments(parser):
 
 class environment():
     def __init__(self):
-        physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080 --mp4=pour.mp4 --mp4fps=40")
-        # physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080")
+        # physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080 --mp4=pour.mp4 --mp4fps=40")
+        physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080")
         pb.configureDebugVisualizer(pb.COV_ENABLE_GUI, 0, lightPosition = [0, 0, 5])
         pb.setGravity(0,0,-9.81)
         pb.setRealTimeSimulation(True)
@@ -135,11 +135,10 @@ class environment():
         pb.loadURDF("environment/cup.urdf", pos, orn)
         # load can in position
         pos = [x, y, 0.610]
-        # orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, 0])
-        # can_id = pb.loadURDF("environment/can.urdf", pos, orn)
-        orn = pb.getQuaternionFromEuler([0, 0, 0])
-        # can_id = pb.loadURDF("environment/cup.urdf", pos, orn)
-        can_id = pb.loadURDF("environment/master_chef_can/master_chef_can.urdf", pos, orn)
+        orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, 0])
+        # orn = pb.getQuaternionFromEuler([0, 0, 0])
+        can_id = pb.loadURDF("environment/can.urdf", pos, orn)
+        # can_id = pb.loadURDF("environment/master_chef_can/master_chef_can.urdf", pos, orn)
         # pb.changeDynamics(can_id,
         #                   -1,
         #                   lateralFriction=1,
@@ -159,9 +158,9 @@ class environment():
         self.robotL.cartesian_control('z', True, -0.18)
         pbu.step_real(1)
         # close gripper, lift up
+        self.robotL.attach_object(can_id)
         self.robotL.close_gripper(realtime=True)
         # attach object
-        self.robotL.attach_object(can_id)
         self.robotL.cartesian_control('z', True, 0.2)
         pbu.step_real(1)
         target_orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, 0])
@@ -179,12 +178,13 @@ class environment():
         self.robotL.control_arm_joints(jv[0:6])
         pbu.step_real(1)
         target_orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, 0])
-        jv = pbu.inverse_kinematics(self.robotL.id, self.ee_index, position = [0.8, 1.0, 0.65], orientation = target_orn)
+        jv = pbu.inverse_kinematics(self.robotL.id, self.ee_index, position = [0.8, 1.0, 0.62], orientation = target_orn)
         self.robotL.control_arm_joints(jv[0:6])
         pbu.step_real(1)
         self.robotL.detach()
         self.robotL.open_gripper(realtime=True)
-        self.robotL.cartesian_control('z', True, 0.2)
+        self.robotL.cartesian_control('x', value=-0.1)
+        self.robotL.cartesian_control('z', value=0.2)
         
 
     def pour(self, n):
