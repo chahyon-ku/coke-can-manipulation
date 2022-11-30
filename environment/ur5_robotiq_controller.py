@@ -37,7 +37,7 @@ class UR5RobotiqPybulletController(object):
     LIE = [0, 0, 0, 0, 0, 0]
     UP = [0, -1.5707, 0, -1.5707, 0, 0]
     OPEN_POSITION = [0] * 6
-    CLOSED_POSITION = 0.6 * np.array([1, 1, -1, 1, 1, -1])
+    CLOSED_POSITION = 0.3 * np.array([1, 1, -1, 1, 1, -1])
     EE_LINK_NAME = 'ee_link'
     TIP_LINK = "ee_link"
     BASE_LINK = "base_link"

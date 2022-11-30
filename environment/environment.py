@@ -16,8 +16,8 @@ def add_arguments(parser):
 
 class environment():
     def __init__(self):
-        # physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080 --mp4=pour.mp4 --mp4fps=40")
-        physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080")
+        physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080 --mp4=pour.mp4 --mp4fps=30")
+        # physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080")
         pb.configureDebugVisualizer(pb.COV_ENABLE_GUI, 0, lightPosition = [0, 0, 5])
         pb.setGravity(0,0,-9.81)
         pb.setRealTimeSimulation(True)
@@ -59,7 +59,7 @@ class environment():
 
     def generate_data(num_data=10): 
         # load can
-        pos = [0.5,0.7,0.610]
+        pos = [0.5,0.7,0.630]
         orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, 0])
         canID = pb.loadURDF("environment/can.urdf", pos, orn)
         pbu.step_real(1)
@@ -130,11 +130,11 @@ class environment():
 
     def grasp_can(self, x, y):
         # load cup
-        pos = [0.8, 1.2, 0.61]
+        pos = [0.8, 1.2, 0.70]
         orn = pb.getQuaternionFromEuler([0, 0, 0])
         pb.loadURDF("environment/cup.urdf", pos, orn)
         # load can in position
-        pos = [x, y, 0.610]
+        pos = [x, y, 0.70]
         orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, 0])
         # orn = pb.getQuaternionFromEuler([0, 0, 0])
         can_id = pb.loadURDF("environment/can.urdf", pos, orn)
@@ -155,7 +155,7 @@ class environment():
         self.robotL.control_arm_joints(jv[0:6])
         pbu.step_real(1)
         # move to can
-        self.robotL.cartesian_control('z', True, -0.18)
+        self.robotL.cartesian_control('z', True, -0.16)
         pbu.step_real(1)
         # close gripper, lift up
         self.robotL.attach_object(can_id)
@@ -178,14 +178,12 @@ class environment():
         self.robotL.control_arm_joints(jv[0:6])
         pbu.step_real(1)
         target_orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, 0])
-        jv = pbu.inverse_kinematics(self.robotL.id, self.ee_index, position = [0.8, 1.0, 0.62], orientation = target_orn)
+        jv = pbu.inverse_kinematics(self.robotL.id, self.ee_index, position = [0.8, 1.0, 0.64], orientation = target_orn)
         self.robotL.control_arm_joints(jv[0:6])
         pbu.step_real(1)
         self.robotL.detach()
         self.robotL.open_gripper(realtime=True)
-        self.robotL.cartesian_control('x', value=-0.1)
-        self.robotL.cartesian_control('z', value=0.2)
-        
+        self.robotL.cartesian_control('x', value=-0.1)        
 
     def pour(self, n):
         r = 0.008
