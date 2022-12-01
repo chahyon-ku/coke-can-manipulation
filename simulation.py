@@ -1,5 +1,6 @@
 import argparse
 import pybullet as pb
+import state
 
 
 def add_arguments(parser):
@@ -7,7 +8,7 @@ def add_arguments(parser):
     parser.add_argument('--simulation_height', type=int, default=1280)
 
 
-def run(args, state):
+def run(args, state: state.State):
     physics_client = pb.connect(pb.GUI, options=f"--width={args.simulation_width}--height={args.simulation_height}")
     while True:
         pass

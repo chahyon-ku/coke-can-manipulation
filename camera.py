@@ -2,6 +2,7 @@ import argparse
 import pyrealsense2 as prs
 import cv2
 import numpy as np
+import state
 
 
 def add_arguments(parser):
@@ -10,7 +11,7 @@ def add_arguments(parser):
     parser.add_argument('--camera_frame_rate', type=int, default=30)
 
 
-def run(args, state):
+def run(args, state: state.State):
     pipeline = prs.pipeline()
     config = prs.config()
 
