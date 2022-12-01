@@ -1,15 +1,11 @@
-import numpy as np
 import pybullet as p
-import pybullet_utils as pu
 from . import grasp_utils as gu
-import time
 import pyquaternion
 from collections import namedtuple
 import numpy as np
-import pybullet_utils as pu
-from rrt import rrt
-from rrt_connect import birrt
-from itertools import combinations, product
+from . import pybullet_utils as pu
+from .rrt import rrt
+from .rrt_connect import birrt
 import time
 
 Grasp = namedtuple('Grasp', ['grasp_pose', 'grasp_jv', 'pre_grasp_pose', 'pre_grasp_jv',

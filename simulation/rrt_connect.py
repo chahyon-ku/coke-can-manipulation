@@ -1,6 +1,6 @@
-from smoothing import smooth_path
-from rrt import TreeNode, configs
-from rrt_utils import irange, argmin
+from .smoothing import smooth_path
+from .rrt import TreeNode, configs
+from .rrt_utils import irange, argmin
 import pybullet_utils as pu
 
 

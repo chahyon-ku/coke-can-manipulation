@@ -14,7 +14,7 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="./environment/wall.obj" scale="1 1 1"/>
+        <mesh filename="./simulation/wall.obj" scale="1 1 1"/>
       </geometry>
       <material name="white">
         <color rgba="1.0 1.0 1.0 1.0"/>

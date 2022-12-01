@@ -15,13 +15,13 @@ connect(use_gui=True, width=1920, height=1080)
 pb.resetDebugVisualizerCamera(cameraDistance = 2, cameraYaw = 70.0, cameraPitch = -20.0, cameraTargetPosition = [0,0.5,0.5])
 pos = [0,0,0]
 orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, np.pi/2.0])
-pb.loadURDF("./environment/room.urdf", pos, orn, useFixedBase = True)
+pb.loadURDF("./simulation/room.urdf", pos, orn, useFixedBase = True)
 pos = [4,0,0]
 orn = pb.getQuaternionFromEuler([np.pi/2.0,0,0])
-pb.loadURDF("./environment/wall.urdf", pos, orn, useFixedBase = True)
+pb.loadURDF("./simulation/wall.urdf", pos, orn, useFixedBase = True)
 pos = [0,0,0]
 orn = pb.getQuaternionFromEuler([np.pi/2.0,0,-np.pi/2.0])
-pb.loadURDF("./environment/wall.urdf", pos, orn, useFixedBase = True)
+pb.loadURDF("./simulation/wall.urdf", pos, orn, useFixedBase = True)
 pos = [0.079,1.166-0.09,0.560]
 orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, np.pi/2.0])
 pb.loadURDF("environment/dual_arm_station.urdf", pos, orn, useFixedBase = True)

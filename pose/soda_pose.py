@@ -117,5 +117,59 @@ def main():
     plt.show()
 
 
+def get_aruco_t_soda(color_image, depth_image, intrinsic, aruco_t_camera):
+    # intrinsic matrix
+    fx = intrinsic[0, 0]
+    fy = intrinsic[1, 1]
+    ppx = intrinsic[0, 2]
+    ppy = intrinsic[1, 2]
+
+    templates = [np.array(cv2.imread('templates/0.png', cv2.IMREAD_GRAYSCALE)),
+                 np.array(cv2.imread('templates/1.png', cv2.IMREAD_GRAYSCALE)),
+                 np.array(cv2.imread('templates/2.png', cv2.IMREAD_GRAYSCALE))]
+
+    # image we want to know the can location of
+    position_image = cv2.ximgproc.niBlackThreshold(color_image, maxValue=255, type=cv2.THRESH_BINARY, blockSize=41, k=-0.2)
+
+    # Similarity checking
+    similarities = [cv2.matchTemplate(position_image[300:540, 200:800], template, cv2.TM_CCORR_NORMED)
+                    for template in templates]
+
+    max_peak = None
+    peaks = []
+    for i_similarity, similarity in enumerate(similarities):
+        flat = np.reshape(similarity, -1)
+        value = np.max(flat)
+        loc = np.argmax(flat)
+        peaks.append((value, 300 + templates[i_similarity].shape[0] // 2 + loc // similarity.shape[1],
+                      200 + templates[i_similarity].shape[1] // 2 + loc % similarity.shape[1]))
+        if max_peak is None:
+            max_peak = peaks[-1]
+        elif max_peak[0] < peaks[-1][0]:
+            max_peak = peaks[-1]
+
+    z = depth_image[max_peak[1], max_peak[2]] * 0.00025
+    x = z * (max_peak[2] - ppx) / fx
+    y = z * (max_peak[1] - ppy) / fy
+
+    aruco_T_camera = np.zeros((4, 4))
+    aruco_T_camera[:3, :3] = R.from_euler('xyz', aruco_t_camera[3:]).as_matrix()
+    aruco_T_camera[:3, 3] = aruco_t_camera[:3]
+    aruco_T_camera[3, 3] = 1
+
+    camera_T_soda = np.zeros((4, 4))
+    camera_T_soda[:3, :3] = np.transpose(aruco_T_camera[:3, :3])
+    camera_T_soda[:3, 3] = [x, y, z]
+    camera_T_soda[3, 3] = 1
+
+    aruco_T_soda = aruco_T_camera @ camera_T_soda
+    aruco_tvec_soda = aruco_T_soda[:3, 3]
+    aruco_rvec_soda = cv2.Rodrigues(aruco_T_soda[:3, :3])
+
+    aruco_t_soda = np.concatenate((aruco_tvec_soda, aruco_rvec_soda), -1)
+    aruco_t_soda = np.reshape(aruco_t_soda, -1)
+    return aruco_t_soda
+
+
 if __name__ == '__main__':
     main()
