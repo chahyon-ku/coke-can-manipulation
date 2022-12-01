@@ -2,7 +2,7 @@ import numpy as np
 import time
 import cv2
 import matplotlib.pyplot as plt
-
+from main import get_image, get_intrinsic
 
 ARUCO_DICT = {
     "DICT_4X4_50": cv2.aruco.DICT_4X4_50,
@@ -85,13 +85,13 @@ print(arucoDict)
 
 print(arucoParams)
 
-image = cv2.imread("7_color.png")
+image = get_image()
 h, w, _ = image.shape
 
 width = 1000
 height = 562
 img = cv2.resize(image, (width, height), interpolation=cv2.INTER_CUBIC)
-intrinsic_matrix = np.array(((672.66, 0, 480), (0, 672.66, 270), (0, 0, 1)))
+intrinsic_matrix = get_intrinsic()
 corners, ids, rejected = cv2.aruco.detectMarkers(img, arucoDict, parameters=arucoParams)
 
 detected_markers = aruco_display(corners, ids, rejected, img)

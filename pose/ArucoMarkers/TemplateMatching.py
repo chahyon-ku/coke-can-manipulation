@@ -31,13 +31,16 @@ def make_and_save_templates():
 
 def main():
     # intrinsic matrix
-    f = 672.6654
+    intrinsic_matrix = get_intrinsic()
+    f = intrinsic_matrix[0, 0]
+    cam_pose = get_;
 
     templates = [np.array(cv2.imread('templates/0.png', cv2.IMREAD_GRAYSCALE)),
                  np.array(cv2.imread('templates/1.png', cv2.IMREAD_GRAYSCALE)),
                  np.array(cv2.imread('templates/2.png', cv2.IMREAD_GRAYSCALE))]
 
     # image we want to know the can location of
+
     current_image = np.array(cv2.imread('7_color.png', cv2.IMREAD_GRAYSCALE))
     current_depth_image = np.array(cv2.imread('7_depth.png', cv2.IMREAD_ANYDEPTH))
     position_image = cv2.ximgproc.niBlackThreshold(current_image, maxValue=255, type=cv2.THRESH_BINARY, blockSize=41, k=-0.2)
@@ -63,7 +66,6 @@ def main():
     x = z * (max_peak[2] - 480) / f;
     y = z * (max_peak[1] - 270) / f;
 
-    cam_pose = [0.37978148, 0.24435215, 1.57745443, 1.74390674, 0.03425322, -0.10934942];
     camRaruco = R.from_euler('xyz', cam_pose[3:]).as_matrix()
 
     camTaruco = np.zeros((4, 4))
