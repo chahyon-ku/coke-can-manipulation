@@ -10,7 +10,7 @@ def add_arguments(parser):
     parser.add_argument('--camera_frame_rate', type=int, default=30)
 
 
-def run(args, state):
+def run(args, state: state.State):
     pipeline = prs.pipeline()
     config = prs.config()
 
