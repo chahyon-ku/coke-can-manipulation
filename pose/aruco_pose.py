@@ -2,7 +2,6 @@ import numpy as np
 import time
 import cv2
 import matplotlib.pyplot as plt
-from main import get_image, get_intrinsic
 
 ARUCO_DICT = {
     "DICT_4X4_50": cv2.aruco.DICT_4X4_50,
@@ -75,32 +74,26 @@ def pose_estimation(frame, aruco_dict_type, matrix_coefficients, distortion_coef
     return rvec, tvec
 
 
-aruco_type = "DICT_4X4_100"
+def get_aruco_t_camera(color_image, intrinsic):
+    aruco_type = "DICT_4X4_100"
+    aruco_dict = cv2.aruco.Dictionary_get(ARUCO_DICT[aruco_type])
+    aruco_params = cv2.aruco.DetectorParameters_create()
 
-arucoDict = cv2.aruco.Dictionary_get(ARUCO_DICT[aruco_type])
+    color_image = cv2.copyMakeBorder(color_image, 0, 0, 0, 40, cv2.BORDER_CONSTANT)
+    gray_image = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
 
-arucoParams = cv2.aruco.DetectorParameters_create()
+    corners, ids, rejected = cv2.aruco.detectMarkers(gray_image, aruco_dict, parameters=aruco_params)
+    if ids is not None:
+        for i in range(0, len(ids)):
+            rvec, tvec, markerPoints = cv2.aruco.estimatePoseSingleMarkers(corners[i], .1, intrinsic,
+                                                                           .01)
 
-print(arucoDict)
-
-print(arucoParams)
-
-image = get_image()
-h, w, _ = image.shape
-
-width = 1000
-height = 562
-img = cv2.resize(image, (width, height), interpolation=cv2.INTER_CUBIC)
-intrinsic_matrix = get_intrinsic()
-corners, ids, rejected = cv2.aruco.detectMarkers(img, arucoDict, parameters=arucoParams)
-
-detected_markers = aruco_display(corners, ids, rejected, img)
-output1, output2 = pose_estimation(img, ARUCO_DICT[aruco_type], intrinsic_matrix, .01)
-detected_markers = cv2.drawFrameAxes(detected_markers, intrinsic_matrix, .01, output1, output2, .1)
-cv2.imshow('Marker ID', detected_markers)
-print("Translation=", output2)
-print("Rotation =", output1)
-key = cv2.waitKey(0)
-if key == 27:
-   cv2.destroyAllWindows()
-
+        # marker_image = cv2.aruco.drawDetectedMarkers(gray_image, corners)
+        # marker_image = cv2.drawFrameAxes(marker_image, intrinsic, .01, rvec, tvec, .1)
+        # cv2.imshow('marker image', marker_image)
+        aruco_t_camera = np.concatenate((tvec, rvec), -1)
+        aruco_t_camera = np.reshape(aruco_t_camera, -1)
+        return aruco_t_camera
+    else:
+        print('No aruco tag detected')
+        return np.zeros(6)

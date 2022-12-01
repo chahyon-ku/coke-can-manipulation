@@ -1,7 +1,7 @@
 import numpy as np
 import pybullet as p
 import pybullet_utils as pu
-import grasp_utils as gu
+from . import grasp_utils as gu
 import time
 import pyquaternion
 from collections import namedtuple

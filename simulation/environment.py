@@ -2,11 +2,12 @@
 # objects from eleramp/pybullet-object-models
 import pybullet as pb
 import pybullet_utils as pbu
-from ur5_robotiq_controller import UR5RobotiqPybulletController
+from .ur5_robotiq_controller import UR5RobotiqPybulletController
 from matplotlib import pyplot as plt
 import numpy as np
 import os
 import argparse
+
 
 def add_arguments(parser):
     parser.add_argument('--generate_data', type=bool, default=False)
@@ -14,7 +15,8 @@ def add_arguments(parser):
     parser.add_argument('--can_x', type=float, default=0.6)
     parser.add_argument('--can_y', type=float, default=0.7)
 
-class environment():
+
+class Environment:
     def __init__(self):
         physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080 --mp4=pour.mp4 --mp4fps=30")
         # physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080")
@@ -200,18 +202,20 @@ class environment():
                             useMaximalCoordinates=True)
             pbu.step_real(0.05)
 
+
 def main():
     parser = argparse.ArgumentParser()
     add_arguments(parser)
     args = parser.parse_args()
 
-    env = environment()
+    env = Environment()
     if args.generate_data:
         env.generate_data(args.num_data)
     else:
         env.grasp_can(args.can_x, args.can_y)
     pbu.step_real(1)
     pb.disconnect()
+
 
 if __name__ == '__main__':
     main()
