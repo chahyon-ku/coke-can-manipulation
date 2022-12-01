@@ -1,15 +1,25 @@
-class State():
+import numpy as np
+
+
+class State:
     def __init__(self):
-        self.image = np.zeros((1, 1))
+        self.color_image = np.zeros((3, 540, 960))
+        self.depth_image = np.zeros((3, 540, 960))
         self.intrinsic = np.zeros((3, 3))
         self.camera_t_aruco = np.zeros((4, 4))
         self.camera_t_soda = np.zeros((4, 4))
 
-    def set_image(self, image):
-        self.image = image
+    def set_color_image(self, color_image):
+        self.color_image = color_image
 
-    def get_image(self):
-        return self.image
+    def get_color_image(self):
+        return self.color_image
+
+    def set_depth_image(self, depth_image):
+        self.depth_image = depth_image
+
+    def get_depth_image(self):
+        return self.depth_image
 
     def set_intrinsic(self, intrinsic):
         self.intrinsic = intrinsic

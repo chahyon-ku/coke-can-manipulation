@@ -36,9 +36,13 @@ def run(args, state: state.State):
         depth_image = np.array(depth_frame.data, dtype=np.uint16)
         color_image = np.array(color_frame.data, dtype=np.uint8)
 
+        if state is not None:
+            state.set_color_image(color_image)
+            state.set_depth_image(depth_image)
+
         cv2.imshow('color', color_image)
         cv2.imshow('depth', depth_image)
-        k = cv2.waitKey(20) & 0xFF
+        k = cv2.waitKey(10) & 0xFF
 
 
 def main():
