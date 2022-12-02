@@ -1,5 +1,4 @@
 # some code from decentralized multiarm multiarm.cs.columbia.edu
-# objects from eleramp/pybullet-object-models
 import pybullet as pb
 
 from . import pybullet_utils as pbu
@@ -8,20 +7,11 @@ from . ur5_robotiq_controller import UR5RobotiqPybulletController
 from matplotlib import pyplot as plt
 import numpy as np
 import os
-import argparse
-
-def add_arguments(parser):
-    parser.add_argument('--generate_data', type=bool, default=False)
-    parser.add_argument('--num_data', type=int, default=10)
-    parser.add_argument('--can_x', type=float, default=0.6)
-    parser.add_argument('--can_y', type=float, default=0.7)
-    parser.add_argument('--can_rz', type=float, default=0.0)
-    parser.add_argument('--random_pose', type=bool, default=True)
 
 class Environment:
     def __init__(self):
-        physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080 --mp4=pour.mp4 --mp4fps=15")
-        # physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080")
+        # physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080 --mp4=pour.mp4 --mp4fps=15")
+        physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080")
         pb.configureDebugVisualizer(pb.COV_ENABLE_GUI, 0, lightPosition = [0, 0, 5])
         self.num_solver_iterations = 50
         self.solver_residual_threshold = 1e-7
@@ -212,6 +202,7 @@ class Environment:
         self.robotL.detach()
         jv = pbu.inverse_kinematics(self.robotL.id, self.ee_index, position = [0.7, 1.0, 0.7], orientation = target_orn)
         self.robotL.control_arm_joints(jv[0:6])     
+        pbu.step_real(1)
 
     def pour(self, n):
         r = 0.008
@@ -227,24 +218,3 @@ class Environment:
                             basePosition=[np.random.uniform(0.79, 0.81), 1.2, 0.68],
                             useMaximalCoordinates=True)
             pbu.step_real(0.05)
-
-def main():
-    parser = argparse.ArgumentParser()
-    add_arguments(parser)
-    args = parser.parse_args()
-
-    env = Environment()
-    if args.generate_data:
-        env.generate_data(args.num_data)
-    else:
-        if args.random_pose:
-            x = np.random.uniform(0.2, 0.7)
-            y = np.random.uniform(0.7, 1.0)
-            rz = np.random.uniform(-np.pi, np.pi)
-            env.update_can(x, y, rz)
-            env.grasp_can()
-    pbu.step_real(1)
-    pb.disconnect()
-
-if __name__ == '__main__':
-    main()
