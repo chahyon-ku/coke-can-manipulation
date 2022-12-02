@@ -1,15 +1,11 @@
-import numpy as np
 import pybullet as p
-import pybullet_utils as pu
-import grasp_utils as gu
-import time
+from . import grasp_utils as gu
 import pyquaternion
 from collections import namedtuple
 import numpy as np
-import pybullet_utils as pu
-from rrt import rrt
-from rrt_connect import birrt
-from itertools import combinations, product
+from . import pybullet_utils as pu
+from .rrt import rrt
+from .rrt_connect import birrt
 import time
 
 Grasp = namedtuple('Grasp', ['grasp_pose', 'grasp_jv', 'pre_grasp_pose', 'pre_grasp_jv',
@@ -37,7 +33,7 @@ class UR5RobotiqPybulletController(object):
     LIE = [0, 0, 0, 0, 0, 0]
     UP = [0, -1.5707, 0, -1.5707, 0, 0]
     OPEN_POSITION = [0] * 6
-    CLOSED_POSITION = 0.1 * np.array([1, 1, -1, 1, 1, -1])
+    CLOSED_POSITION = 0.3 * np.array([1, 1, -1, 1, 1, -1])
     EE_LINK_NAME = 'ee_link'
     TIP_LINK = "ee_link"
     BASE_LINK = "base_link"

@@ -1,6 +1,5 @@
 from random import random
-
-from rrt_utils import irange, argmin
+from .rrt_utils import irange, argmin
 import pybullet_utils as pu
 
 

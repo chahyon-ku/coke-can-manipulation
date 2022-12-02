@@ -1,8 +1,10 @@
 # some code from decentralized multiarm multiarm.cs.columbia.edu
 # objects from eleramp/pybullet-object-models
 import pybullet as pb
-import pybullet_utils as pbu
-from ur5_robotiq_controller import UR5RobotiqPybulletController
+
+from . import pybullet_utils as pbu
+from . ur5_robotiq_controller import UR5RobotiqPybulletController
+
 from matplotlib import pyplot as plt
 import numpy as np
 import os
@@ -16,7 +18,7 @@ def add_arguments(parser):
     parser.add_argument('--can_rz', type=float, default=0.0)
     parser.add_argument('--random_pose', type=bool, default=True)
 
-class environment():
+class Environment:
     def __init__(self):
         physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080 --mp4=pour.mp4 --mp4fps=15")
         # physicsClient = pb.connect(pb.GUI, options="--width=1920 --height=1080")
@@ -75,7 +77,13 @@ class environment():
         orn = pb.getQuaternionFromEuler([np.pi/2.0, 0, 0])
         self.can_id = pb.loadURDF("simulation/can.urdf", pos, orn)
 
-    def generate_data(self, num_data=10): 
+    def generate_data(num_data=10):
+        # load can
+        pos = [0.5, 0.7, 0.630]
+        orn = pb.getQuaternionFromEuler([np.pi / 2.0, 0, 0])
+        canID = pb.loadURDF("simulation/can.urdf", pos, orn)
+        pbu.step_real(1)
+
         # camera setup
         w = 640.0
         h = 480.0
@@ -225,7 +233,7 @@ def main():
     add_arguments(parser)
     args = parser.parse_args()
 
-    env = environment()
+    env = Environment()
     if args.generate_data:
         env.generate_data(args.num_data)
     else:
@@ -240,4 +248,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
