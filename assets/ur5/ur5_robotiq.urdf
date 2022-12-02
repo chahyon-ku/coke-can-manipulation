@@ -340,12 +340,12 @@
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <mesh filename="gripper/meshes/collision/robotiq_arg2f_base_link.stl"/>
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <link name="left_outer_knuckle">
     <!--<inertial>
@@ -362,12 +362,12 @@
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <mesh filename="gripper/meshes/collision/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <link name="left_outer_finger">
     <!--<inertial>
@@ -384,12 +384,12 @@
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <mesh filename="gripper/meshes/collision/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <link name="left_inner_finger">
     <!--<inertial>
@@ -406,12 +406,12 @@
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <mesh filename="gripper/meshes/collision/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <link name="left_inner_finger_pad">
     <visual>
@@ -423,7 +423,7 @@
         <color rgba="0.9 0.9 0.9 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <box size="0.022 0.00635 0.0375"/>
@@ -431,7 +431,7 @@
       <material name="">
         <color rgba="0.9 0.0 0.0 1"/>
       </material>
-    </collision>
+    </collision> -->
     <!-- <contact>
       <lateral_friction value="20"/>
       <spinning_friction value="1.0"/>
@@ -453,12 +453,12 @@
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <mesh filename="gripper/meshes/collision/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <link name="right_outer_knuckle">
     <!--<inertial>
@@ -475,12 +475,12 @@
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <mesh filename="gripper/meshes/collision/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <link name="right_outer_finger">
     <!--<inertial>
@@ -497,12 +497,12 @@
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <mesh filename="gripper/meshes/collision/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <link name="right_inner_finger">
     <!--<inertial>
@@ -519,12 +519,12 @@
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <mesh filename="gripper/meshes/collision/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <link name="right_inner_finger_pad">
     <visual>
@@ -536,7 +536,7 @@
         <color rgba="0.9 0.9 0.9 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <box size="0.022 0.00635 0.0375"/>
@@ -544,7 +544,7 @@
       <material name="">
         <color rgba="0.9 0.0 0.0 1"/>
       </material>
-    </collision>
+    </collision> -->
     <!-- <contact>
       <lateral_friction value="20"/>
       <spinning_friction value="1.0"/>
@@ -566,12 +566,12 @@
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <mesh filename="gripper/meshes/collision/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <joint name="finger_joint" type="revolute">
     <origin rpy="0 0 3.14159265359" xyz="0 -0.0306011 0.054904"/>
@@ -672,7 +672,7 @@
   <joint name="tool_tip_joint" type="fixed">
     <parent link="ee_link"/>
     <child link="tool_tip_link"/>
-    <origin rpy="0.0 0.0 0.0" xyz="0.15 0.0 0.0"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0.14 0.0 0.0"/>
   </joint>
   <link name="tool_tip_link"/>
 </robot>

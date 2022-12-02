@@ -314,11 +314,11 @@
           <mesh filename="../meshes/visual/robotiq_85_base_link.dae"/>
         </geometry>
       </visual>
-      <collision>
+      <!-- <collision>
         <geometry>
           <mesh filename="../meshes/collision/robotiq_85_base_link.stl"/>
         </geometry>
-      </collision>
+      </collision> -->
       <inertial>
         <mass value="0.636951" />
         <origin xyz="0.0 0.0 0.0" />
@@ -351,11 +351,11 @@
           <mesh filename="../meshes/visual/robotiq_85_knuckle_link.dae"/>
         </geometry>
       </visual>
-      <collision>
+      <!-- <collision>
         <geometry>
           <mesh filename="../meshes/collision/robotiq_85_knuckle_link.stl"/>
         </geometry>
-      </collision>
+      </collision> -->
       <inertial>
         <mass value="0.18491" />
         <origin xyz="0.0 0.0 0.0" />
@@ -371,11 +371,11 @@
           <mesh filename="../meshes/visual/robotiq_85_knuckle_link.dae"/>
         </geometry>
       </visual>
-      <collision>
+      <!-- <collision>
         <geometry>
           <mesh filename="../meshes/collision/robotiq_85_knuckle_link.stl"/>
         </geometry>
-      </collision>
+      </collision> -->
       <inertial>
         <mass value="0.18491" />
         <origin xyz="0.0 0.0 0.0" />
@@ -403,11 +403,11 @@
           <mesh filename="../meshes/visual/robotiq_85_finger_link.dae"/>
         </geometry>
       </visual>
-      <collision>
+      <!-- <collision>
         <geometry>
           <mesh filename="../meshes/collision/robotiq_85_finger_link.stl"/>
         </geometry>
-      </collision>
+      </collision> -->
       <inertial>
         <mass value="0.27309" />
         <origin xyz="0.0 0.0 0.0" />
@@ -423,11 +423,11 @@
           <mesh filename="../meshes/visual/robotiq_85_finger_link.dae"/>
         </geometry>
       </visual>
-      <collision>
+      <!-- <collision>
         <geometry>
           <mesh filename="../meshes/collision/robotiq_85_finger_link.stl"/>
         </geometry>
-      </collision>
+      </collision> -->
       <inertial>
         <mass value="0.27309" />
         <origin xyz="0.0 0.0 0.0" />
@@ -461,11 +461,11 @@
           <mesh filename="../meshes/visual/robotiq_85_inner_knuckle_link.dae"/>
         </geometry>
       </visual>
-      <collision>
+      <!-- <collision>
         <geometry>
           <mesh filename="../meshes/collision/robotiq_85_inner_knuckle_link.stl"/>
         </geometry>
-      </collision>
+      </collision> -->
       <inertial>
         <mass value="0.29951" />
         <origin xyz="0.0 0.0 0.0" />
@@ -480,11 +480,11 @@
           <mesh filename="../meshes/visual/robotiq_85_inner_knuckle_link.dae"/>
         </geometry>
       </visual>
-      <collision>
+      <!-- <collision>
         <geometry>
           <mesh filename="../meshes/collision/robotiq_85_inner_knuckle_link.stl"/>
         </geometry>
-      </collision>
+      </collision> -->
       <inertial>
         <mass value="0.29951" />
         <origin xyz="0.0 0.0 0.0" />
@@ -531,12 +531,12 @@
           <box size="0.05 0.005 0.025 "/>
         </geometry>
       </visual>
-      <collision>
+      <!-- <collision>
         <origin rpy="0 0 0" xyz="0 0 0.0"/>
         <geometry>
           <box size="0.05 0.005 0.025 "/>
         </geometry>
-      </collision>
+      </collision> -->
       <inertial>
         <mass value="1" />
         <origin xyz="0.0 0.0 0.0" />
@@ -566,12 +566,12 @@
           <box size="0.05 0.005 0.025 "/>
         </geometry>
       </visual>
-      <collision>
+      <!-- <collision>
         <origin rpy="0 0 0" xyz="0 0 0.0"/>
         <geometry>
           <box size="0.05 0.005 0.025 "/>
         </geometry>
-      </collision>
+      </collision> -->
       <inertial>
         <mass value="1" />
         <origin xyz="0.0 0.0 0.0" />
