@@ -13,17 +13,33 @@ def add_arguments(parser):
     parser.add_argument('--can_rz', type=float, default=0.0)
     parser.add_argument('--random_pose', type=bool, default=True)
 
+
 def run(args, state: all.state.State):
     env = simulation.environment.Environment()
-    for i in range(6):
-        env.update_can(i*0.05+0.4, i*0.05+0.7, np.pi/8*i)
-    if args.random_pose:
-        x = np.random.uniform(0.3, 0.7)
-        y = np.random.uniform(0.7, 1.0)
-        rz = np.random.uniform(-np.pi, np.pi)
-        env.update_can(x, y, rz)
-    else:
-        env.update_can(args.can_x, args.can_y, args.can_rz)
+    i = 0
+    prev_x = 0
+    prev_y = 0
+    while True:
+        aruco_t_soda = state.get_aruco_t_soda()
+        in2m = 0.0254
+        x_aruco = 2.25*in2m + 0.05
+        y_aruco = in2m + 0.05
+        x_table = 15*in2m + 0.5
+        y_table = 36*in2m + 0.47
+        x_world = aruco_t_soda[0] + x_table - x_aruco
+        y_world = aruco_t_soda[1] + y_table - y_aruco
+        env.update_can(x_world, y_world, 0)
+        print(i, prev_x, prev_y)
+        if (aruco_t_soda[0] - prev_x) ** 2 + (aruco_t_soda[1] - prev_y) ** 2 < 1e-1:
+            i += 1
+        else:
+            i = 0
+        prev_x = aruco_t_soda[0]
+        prev_y = aruco_t_soda[1]
+
+        if state.get_is_grasping():
+            break
+
     env.grasp_can()
     pb.disconnect()
 

@@ -8,6 +8,7 @@ class State(object):
         self.intrinsic = np.zeros((3, 3))
         self.aruco_t_camera = np.zeros(6)
         self.aruco_t_soda = np.zeros(6)
+        self.is_grasping = False
 
     def set_color_image(self, color_image):
         self.color_image = color_image
@@ -38,3 +39,9 @@ class State(object):
 
     def get_aruco_t_soda(self):
         return self.aruco_t_soda
+
+    def set_is_grasping(self, is_grasping):
+        self.is_grasping = is_grasping
+
+    def get_is_grasping(self):
+        return self.is_grasping

@@ -50,6 +50,8 @@ def run(args, state: all.state.State):
 
         # cv2.imshow('color', color_image)
         # cv2.imshow('depth', depth_image)
+        if state.get_is_grasping():
+            break
 
 
 def main():

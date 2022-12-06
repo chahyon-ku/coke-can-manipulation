@@ -94,5 +94,4 @@ def get_aruco_t_camera(color_image, intrinsic):
         aruco_t_camera = se3.t_to_invt(camera_t_aruco)
         return aruco_t_camera
     else:
-        print('No aruco tag detected')
         return np.zeros(6)

@@ -38,7 +38,9 @@ def run(args, state: all.state.State):
             camera_t_soda = pose.se3.T_to_t(camera_T_soda)
             cv2.drawFrameAxes(color_image, intrinsic, .01, camera_t_soda[3:], camera_t_soda[:3], .1)
             cv2.imshow('marker_image', color_image)
-            cv2.waitKey(10)
+            if cv2.waitKey(10) == ord('g'):
+                state.set_is_grasping(True)
+                break
 
 
 def main():
