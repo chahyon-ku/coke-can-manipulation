@@ -13,7 +13,7 @@ class State(object):
         self.color_image = color_image
 
     def get_color_image(self):
-        return self.color_image
+        return np.copy(self.color_image)
 
     def set_depth_image(self, depth_image):
         self.depth_image = depth_image
@@ -28,14 +28,12 @@ class State(object):
         return self.intrinsic
 
     def set_aruco_t_camera(self, aruco_t_camera):
-        print(aruco_t_camera)
         self.aruco_t_camera = aruco_t_camera
 
     def get_aruco_t_camera(self):
         return self.aruco_t_camera
 
     def set_aruco_t_soda(self, aruco_t_soda):
-        print(aruco_t_soda)
         self.aruco_t_soda = aruco_t_soda
 
     def get_aruco_t_soda(self):

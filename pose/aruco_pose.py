@@ -2,6 +2,9 @@ import numpy as np
 import time
 import cv2
 import matplotlib.pyplot as plt
+from scipy.spatial.transform import Rotation as R
+from . import se3
+
 
 ARUCO_DICT = {
     "DICT_4X4_50": cv2.aruco.DICT_4X4_50,
@@ -84,15 +87,11 @@ def get_aruco_t_camera(color_image, intrinsic):
 
     corners, ids, rejected = cv2.aruco.detectMarkers(gray_image, aruco_dict, parameters=aruco_params)
     if ids is not None:
-        for i in range(0, len(ids)):
-            rvec, tvec, markerPoints = cv2.aruco.estimatePoseSingleMarkers(corners[i], .1, intrinsic,
-                                                                           .01)
-
-        # marker_image = cv2.aruco.drawDetectedMarkers(gray_image, corners)
-        # marker_image = cv2.drawFrameAxes(marker_image, intrinsic, .01, rvec, tvec, .1)
-        # cv2.imshow('marker image', marker_image)
-        aruco_t_camera = np.concatenate((tvec, rvec), -1)
-        aruco_t_camera = np.reshape(aruco_t_camera, -1)
+        rvec, tvec, markerPoints = cv2.aruco.estimatePoseSingleMarkers(corners[0], .1, intrinsic,
+                                                                       .01)
+        camera_t_aruco = np.concatenate((tvec, rvec), -1)
+        camera_t_aruco = np.reshape(camera_t_aruco, -1)
+        aruco_t_camera = se3.t_to_invt(camera_t_aruco)
         return aruco_t_camera
     else:
         print('No aruco tag detected')

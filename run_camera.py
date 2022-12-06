@@ -48,9 +48,8 @@ def run(args, state: all.state.State):
             state.set_color_image(color_image)
             state.set_depth_image(depth_image)
 
-        cv2.imshow('color', color_image)
-        cv2.imshow('depth', depth_image)
-        k = cv2.waitKey(10) & 0xFF
+        # cv2.imshow('color', color_image)
+        # cv2.imshow('depth', depth_image)
 
 
 def main():

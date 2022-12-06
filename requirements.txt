@@ -1,5 +1,14 @@
 torch
-pybullet
-pyrealsense2
-numpy
+pybullet~=3.2.5
+pyrealsense2~=2.51.1.4348
+numpy~=1.21.5
 opencv
+scipy~=1.7.3
+torchvision~=0.14.0
+pillow~=9.2.0
+yaml~=0.2.5
+pyyaml~=6.0
+matplotlib~=3.5.3
+open3d~=0.16.0
+transforms3d~=0.4.1
+pyquaternion~=0.9.9
